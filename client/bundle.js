@@ -46,10 +46,10 @@
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(35),
-	    App = __webpack_require__(175);
+	    SurveyForm = __webpack_require__(175);
 
 	// RENDERING TIME! Render app and pass down the results of a prompt.
-	ReactDOM.render(React.createElement(App, { rowNum: prompt("How many rows should the checkerboard have?") }), document.getElementById('app'));
+	ReactDOM.render(React.createElement(SurveyForm, null), document.getElementById('app'));
 
 /***/ },
 /* 1 */
@@ -21483,65 +21483,113 @@
 
 	var React = __webpack_require__(1);
 
-	// Set up a style object (this is best kept in another file and exported)
-	var styles = {
-	  row: { height: '50px' },
-	  cell: { height: '50px', width: '50px', display: 'inline-block' },
-	  colorA: { backgroundColor: prompt('What should be the first color?') },
-	  colorB: { backgroundColor: prompt('What should be the second color?') }
-	};
+	// ask question of whether data exists, we use state.
+	var SurveyForm = React.createClass({
+	  displayName: 'SurveyForm',
 
-	// App component
-	function App(props) {
-	  return React.createElement(CheckerBoard, { rows: props.rowNum });
-	}
-
-	// CheckerBoard component
-	function CheckerBoard(props) {
-	  // props.rows will equal the number collected from prompt in the App component
-
-	  // Create an array to hold all our Row elements
-	  var cRows = [];
-
-	  for (var i = 0; i < props.rows; i++) {
-	    // For each row, create a row using the Row component. Pass down the number of cells to create, and the current row we're on -- we'll use that number to decide which color to start with.
-	    cRows.push(React.createElement(Row, { key: i, rowNum: i, cells: props.rows }));
+	  getInitialState: function () {
+	    return {
+	      results: null
+	    };
+	  },
+	  render: function () {
+	    return this.state.results === null ? React.createElement(FormComponent, null) : React.createElement(Results, { Component: true });
 	  }
-	  return React.createElement(
-	    'div',
-	    null,
-	    cRows
-	  );
-	}
+	});
 
-	// Row component
-	function Row(props) {
-	  // Use props.rowNum to decide what the colors are for odd/even cells
-	  var colorA = props.rowNum % 2 === 0 ? "colorA" : "colorB";
-	  var colorB = colorA === "colorA" ? "colorB" : "colorA";
+	// Form Component
+	var FormComponent = React.createClass({
+	  displayName: 'FormComponent',
 
-	  var cCells = [];
-
-	  for (var i = 0; i < props.cells; i++) {
-	    cCells.push(React.createElement(Cell, { key: i, color: i % 2 === 0 ? colorA : colorB, style: styles.cell }));
+	  getInitialState: function () {
+	    return {
+	      name: '',
+	      course: '',
+	      rating: '',
+	      comment: ''
+	    };
+	  },
+	  handleInputChange(key, event) {
+	    console.log("KEY", key);
+	    console.log("EVENT", event);
+	  },
+	  render: function () {
+	    console.log("Form: ", this.state);
+	    return React.createElement(
+	      'form',
+	      null,
+	      React.createElement(
+	        'label',
+	        null,
+	        'Name'
+	      ),
+	      React.createElement('input', { value: this.state.name, type: 'text',
+	        onChange: this.handleInputChage.bind(this, 'name') }),
+	      ' ',
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        null,
+	        'Course'
+	      ),
+	      React.createElement(
+	        'select',
+	        { value: this.state.course },
+	        React.createElement(
+	          'option',
+	          null,
+	          'React'
+	        ),
+	        React.createElement(
+	          'option',
+	          null,
+	          'Angular'
+	        ),
+	        React.createElement(
+	          'option',
+	          null,
+	          'Bootstrap'
+	        )
+	      ),
+	      ' ',
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        null,
+	        'Rating'
+	      ),
+	      React.createElement('input', { type: 'number', value: this.state.rating }),
+	      ' ',
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        null,
+	        'Comment'
+	      ),
+	      React.createElement('textarea', { value: this.state.comment }),
+	      ' ',
+	      React.createElement('br', null),
+	      React.createElement('input', { type: 'submit',
+	        value: 'submit' })
+	    );
 	  }
-	  return React.createElement(
-	    'div',
-	    { style: styles.row },
-	    cCells
-	  );
-	}
+	});
 
-	// Cell component
-	function Cell(props) {
-	  // The only purpose of this component is to render a div with the correct styling, which we've linked to a property the Row parent passed down.
-	  return (
-	    // Need to use Object.assign to turn two style objects into one
-	    React.createElement('div', { style: Object.assign({}, styles.cell, styles[props.color]) })
-	  );
-	}
+	// Results Component
 
-	module.exports = App;
+	var ResultsComponent = React.createClass({
+	  displayName: 'ResultsComponent',
+
+	  render: function () {
+	    return React.createElement(
+	      'h1',
+	      null,
+	      'Results Component'
+	    );
+	  }
+	});
+
+	module.exports = SurveyForm;
 
 /***/ }
 /******/ ]);
