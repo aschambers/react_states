@@ -1,7 +1,7 @@
 var React = require('react')
 
 // ask question of whether data exists, we use state.
-var SurveyForm = React.createClass({
+var NinjaGold = React.createClass({
   getInitialState: function(){
     return {
       results: null
@@ -37,7 +37,7 @@ var FormComponent = React.createClass({
   handleFormSubmit(e){
     e.preventDefault()
     this.props.updateResults(this.state)
-    console.log("Form has been submitted, we need to send results to SurveyForm", this.state)
+    console.log("Form has been submitted, we need to send results to NinjaGold", this.state)
   },
   render: function(){
     // console.log("Form: ", this.state)
@@ -82,7 +82,7 @@ var ResultsComponent = React.createClass({
   }
 })
 
-module.exports = SurveyForm
+module.exports = NinjaGold
 
 
 

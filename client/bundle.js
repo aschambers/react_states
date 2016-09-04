@@ -46,10 +46,10 @@
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(35),
-	    SurveyForm = __webpack_require__(175);
+	    NinjaGold = __webpack_require__(175);
 
 	// RENDERING TIME! Render app and pass down the results of a prompt.
-	ReactDOM.render(React.createElement(SurveyForm, null), document.getElementById('app'));
+	ReactDOM.render(React.createElement(NinjaGold, null), document.getElementById('app'));
 
 /***/ },
 /* 1 */
@@ -21484,8 +21484,8 @@
 	var React = __webpack_require__(1);
 
 	// ask question of whether data exists, we use state.
-	var SurveyForm = React.createClass({
-	  displayName: 'SurveyForm',
+	var NinjaGold = React.createClass({
+	  displayName: 'NinjaGold',
 
 	  getInitialState: function () {
 	    return {
@@ -21522,7 +21522,7 @@
 	  handleFormSubmit(e) {
 	    e.preventDefault();
 	    this.props.updateResults(this.state);
-	    console.log("Form has been submitted, we need to send results to SurveyForm", this.state);
+	    console.log("Form has been submitted, we need to send results to NinjaGold", this.state);
 	  },
 	  render: function () {
 	    // console.log("Form: ", this.state)
@@ -21635,7 +21635,7 @@
 	  }
 	});
 
-	module.exports = SurveyForm;
+	module.exports = NinjaGold;
 
 /***/ }
 /******/ ]);
