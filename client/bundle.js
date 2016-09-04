@@ -21492,8 +21492,13 @@
 	      results: null
 	    };
 	  },
+	  updateResults: function (formResults) {
+	    this.setState({
+	      results: formResults
+	    });
+	  },
 	  render: function () {
-	    return this.state.results === null ? React.createElement(FormComponent, null) : React.createElement(Results, { Component: true });
+	    return this.state.results === null ? React.createElement(FormComponent, { updateResults: this.updateResults }) : React.createElement(ResultsComponent, { results: this.state.results });
 	  }
 	});
 
@@ -21509,22 +21514,28 @@
 	      comment: ''
 	    };
 	  },
-	  handleInputChange(key, event) {
-	    console.log("KEY", key);
-	    console.log("EVENT", event);
+	  handleInputChange(key, e) {
+	    var stateObj = this.state;
+	    stateObj[key] = e.target.value;
+	    this.setState(stateObj);
+	  },
+	  handleFormSubmit(e) {
+	    e.preventDefault();
+	    this.props.updateResults(this.state);
+	    console.log("Form has been submitted, we need to send results to SurveyForm", this.state);
 	  },
 	  render: function () {
-	    console.log("Form: ", this.state);
+	    // console.log("Form: ", this.state)
 	    return React.createElement(
 	      'form',
-	      null,
+	      { onSubmit: this.handleFormSubmit },
 	      React.createElement(
 	        'label',
 	        null,
 	        'Name'
 	      ),
 	      React.createElement('input', { value: this.state.name, type: 'text',
-	        onChange: this.handleInputChage.bind(this, 'name') }),
+	        onChange: this.handleInputChange.bind(this, 'name') }),
 	      ' ',
 	      React.createElement('br', null),
 	      React.createElement(
@@ -21534,7 +21545,12 @@
 	      ),
 	      React.createElement(
 	        'select',
-	        { value: this.state.course },
+	        { defaultValue: 'choose', onChange: this.handleInputChange.bind(this, 'course') },
+	        React.createElement(
+	          'option',
+	          { disabled: true, value: 'choose' },
+	          'Choose Course'
+	        ),
 	        React.createElement(
 	          'option',
 	          null,
@@ -21558,7 +21574,8 @@
 	        null,
 	        'Rating'
 	      ),
-	      React.createElement('input', { type: 'number', value: this.state.rating }),
+	      React.createElement('input', { type: 'number', value: this.state.rating,
+	        onChange: this.handleInputChange.bind(this, 'rating') }),
 	      ' ',
 	      React.createElement('br', null),
 	      React.createElement(
@@ -21566,7 +21583,8 @@
 	        null,
 	        'Comment'
 	      ),
-	      React.createElement('textarea', { value: this.state.comment }),
+	      React.createElement('textarea', { value: this.state.comment,
+	        onChange: this.handleInputChange.bind(this, 'comment') }),
 	      ' ',
 	      React.createElement('br', null),
 	      React.createElement('input', { type: 'submit',
@@ -21576,15 +21594,43 @@
 	});
 
 	// Results Component
-
 	var ResultsComponent = React.createClass({
 	  displayName: 'ResultsComponent',
 
 	  render: function () {
+	    var results = this.props.results;
 	    return React.createElement(
-	      'h1',
+	      'div',
 	      null,
-	      'Results Component'
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Results:'
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        'Name: ',
+	        results.name
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        'Course: ',
+	        results.course
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        'Rating: ',
+	        results.rating
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        'Comment: ',
+	        results.comment
+	      )
 	    );
 	  }
 	});
