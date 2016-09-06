@@ -4,7 +4,7 @@ var React = require('react')
 var NinjaGold = React.createClass({
   getInitialState: function(){
     return {
-      results: null
+      results: nulll
     }
   },
   updateResults: function(formResults){
