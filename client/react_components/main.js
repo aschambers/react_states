@@ -1,6 +1,6 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
-    NinjaGold = require('./NinjaGold')
+    States = require('./States')
 
 // RENDERING TIME! Render app and pass down the results of a prompt.
-ReactDOM.render(<NinjaGold />, document.getElementById('app'))
+ReactDOM.render(<States />, document.getElementById('app'))
